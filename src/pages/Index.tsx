@@ -1,5 +1,6 @@
 
 import Hero from "@/components/Hero";
+import Navigation from "@/components/Navigation";
 import DestinationCard from "@/components/DestinationCard";
 import Features from "@/components/Features";
 import Footer from "@/components/Footer";
@@ -34,6 +35,7 @@ const destinations = [
 const Index = () => {
   return (
     <div className="min-h-screen">
+      <Navigation />
       <Hero />
       
       <section className="py-16">
