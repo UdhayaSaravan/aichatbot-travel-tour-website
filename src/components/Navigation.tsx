@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Home, Info, Wrench, Settings } from 'lucide-react';
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent } from "@/components/ui/navigation-menu";
+import { Home, Info, Wrench, LogIn } from 'lucide-react';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
 import { Link } from 'react-router-dom';
 
 const Navigation = () => {
@@ -27,9 +27,9 @@ const Navigation = () => {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/logic" className="flex flex-col items-center hover:text-primary-accent transition-colors">
-            <Settings className="mb-1" />
-            <span className="text-sm">Logic</span>
+          <Link to="/login" className="flex flex-col items-center hover:text-primary-accent transition-colors">
+            <LogIn className="mb-1" />
+            <span className="text-sm">Login</span>
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
