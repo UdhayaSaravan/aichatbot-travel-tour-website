@@ -6,6 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -13,6 +16,10 @@ const formSchema = z.object({
 });
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+  const { setUserEmail, setIsLoggedIn } = useUser();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -22,7 +29,15 @@ const LoginForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    // In a real app, this would be an API call to verify credentials
+    console.log('Login values:', values);
+    setUserEmail(values.email);
+    setIsLoggedIn(true);
+    toast({
+      title: "Welcome back!",
+      description: "You have successfully logged in.",
+    });
+    navigate('/');
   };
 
   return (

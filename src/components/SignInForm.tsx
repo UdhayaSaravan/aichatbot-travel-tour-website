@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),
@@ -14,6 +16,9 @@ const formSchema = z.object({
 });
 
 const SignInForm = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -24,7 +29,13 @@ const SignInForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    // In a real app, this would be an API call to create the user
+    console.log('Sign up values:', values);
+    toast({
+      title: "Account created!",
+      description: "Please login with your credentials.",
+    });
+    navigate('/login');
   };
 
   return (
