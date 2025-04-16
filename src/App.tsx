@@ -11,6 +11,7 @@ import Services from "./pages/Services";
 import Login from "./pages/Login";
 import SignIn from "./pages/SignIn";
 import PlaceDetail from "./pages/PlaceDetail";
+import Account from "./pages/Account";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/place/:id" element={<PlaceDetail />} />
+            <Route path="/account" element={<Account />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
