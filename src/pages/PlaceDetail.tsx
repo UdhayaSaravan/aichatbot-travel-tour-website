@@ -1,10 +1,18 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { MapPin, ChevronLeft } from 'lucide-react';
+import BookingForm from '@/components/BookingForm';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const places = {
   goa: {
@@ -67,7 +75,22 @@ const PlaceDetail = () => {
             </div>
             <p className="text-gray-600 mb-6">{place.description}</p>
             <p className="text-2xl font-bold text-primary mb-6">{place.price}</p>
-            <Button size="lg">Book Now</Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button size="lg">Book Now</Button>
+              </SheetTrigger>
+              <SheetContent className="overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle>Book your stay at {place.title}</SheetTitle>
+                  <SheetDescription>
+                    Fill in the details below to book your perfect vacation.
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="mt-6">
+                  <BookingForm />
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </main>

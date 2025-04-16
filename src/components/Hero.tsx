@@ -1,8 +1,20 @@
-
+import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const place = searchQuery.toLowerCase();
+    if (place === 'goa' || place === 'london' || place === 'france') {
+      navigate(`/place/${place}`);
+    }
+  };
+
   return (
     <div className="relative h-[80vh] flex items-center">
       <div className="absolute inset-0 z-0">
@@ -23,17 +35,19 @@ const Hero = () => {
             Explore the world's most breathtaking destinations
           </p>
           
-          <div className="bg-white rounded-lg p-4 flex items-center gap-4 max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: '0.4s' }}>
+          <form onSubmit={handleSearch} className="bg-white rounded-lg p-4 flex items-center gap-4 max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: '0.4s' }}>
             <Search className="text-gray-400" />
             <input
               type="text"
               placeholder="Where would you like to go?"
               className="flex-1 border-none outline-none text-gray-800"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Button className="bg-primary-accent hover:bg-primary-accent/90 text-white">
+            <Button type="submit" className="bg-primary-accent hover:bg-primary-accent/90 text-white">
               Search
             </Button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
