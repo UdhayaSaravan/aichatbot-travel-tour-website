@@ -10,6 +10,7 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Login from "./pages/Login";
 import SignIn from "./pages/SignIn";
+import PlaceDetail from "./pages/PlaceDetail";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/services" element={<Services />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/place/:id" element={<PlaceDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

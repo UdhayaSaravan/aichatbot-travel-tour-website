@@ -1,14 +1,32 @@
 
 import React from 'react';
-import { Home, Info, Wrench, LogIn, Plane } from 'lucide-react';
+import { Home, Info, Wrench, LogIn, Plane, LogOut } from 'lucide-react';
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { Avatar, AvatarFallback } from './ui/avatar';
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from './ui/button';
 
 const Navigation = () => {
-  const { isLoggedIn, userEmail } = useUser();
+  const { isLoggedIn, userEmail, setIsLoggedIn, setUserEmail } = useUser();
   const emailInitial = userEmail ? userEmail[0].toUpperCase() : '';
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserEmail('');
+    navigate('/');
+  };
 
   return (
     <NavigationMenu className="w-full bg-white shadow-sm">
@@ -39,11 +57,27 @@ const Navigation = () => {
           </NavigationMenuItem>
           <NavigationMenuItem>
             {isLoggedIn ? (
-              <Avatar>
-                <AvatarFallback className="bg-primary text-primary-foreground">
-                  {emailInitial}
-                </AvatarFallback>
-              </Avatar>
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <Avatar className="cursor-pointer">
+                    <AvatarFallback className="bg-primary text-primary-foreground">
+                      {emailInitial}
+                    </AvatarFallback>
+                  </Avatar>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      You will need to login again to access your account.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>No</AlertDialogCancel>
+                    <Button onClick={handleLogout} variant="destructive">Yes</Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             ) : (
               <Link to="/login" className="flex flex-col items-center hover:text-primary-accent transition-colors">
                 <LogIn className="mb-1" />
