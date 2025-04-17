@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -57,6 +58,24 @@ const BookingForm = () => {
     setIsProcessing(true);
 
     try {
+      // Check if environment variables for Supabase are set
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      
+      if (!supabaseUrl || !supabaseAnonKey) {
+        toast({
+          title: "Demo Mode",
+          description: "Running in demo mode. In a real app, this would process a payment.",
+          variant: "default",
+        });
+        
+        // Simulate processing delay
+        setTimeout(() => {
+          navigate('/payment-success');
+        }, 1500);
+        return;
+      }
+
       const { data, error } = await supabase.functions.invoke('create-payment', {
         body: {
           bookingDetails: {
