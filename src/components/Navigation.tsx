@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Home, Info, Wrench, LogIn, Plane, User } from 'lucide-react';
+import { Home, Info, Wrench, LogIn, Plane, User, List } from 'lucide-react';
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
@@ -13,17 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from './ui/button';
 
 const Navigation = () => {
   const { isLoggedIn, userEmail, setIsLoggedIn, setUserEmail } = useUser();
@@ -49,6 +38,25 @@ const Navigation = () => {
         </Link>
 
         <NavigationMenuList className="flex items-center space-x-8">
+          <NavigationMenuItem>
+            <Link to="/" className="flex flex-col items-center hover:text-primary-accent transition-colors">
+              <Home className="mb-1" />
+              <span className="text-sm">Home</span>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link to="/services" className="flex flex-col items-center hover:text-primary-accent transition-colors">
+              <List className="mb-1" />
+              <span className="text-sm">Services</span>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link to="/about" className="flex flex-col items-center hover:text-primary-accent transition-colors">
+              <Info className="mb-1" />
+              <span className="text-sm">About Us</span>
+            </Link>
+          </NavigationMenuItem>
+
           {isLoggedIn ? (
             <NavigationMenuItem>
               <DropdownMenu>
