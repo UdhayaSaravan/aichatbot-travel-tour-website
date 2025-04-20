@@ -1,12 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
-import { CreditCard } from 'lucide-react';
+import { CreditCard, Loader } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface LocationState {
@@ -22,14 +22,20 @@ const PaymentPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { bookingDetails } = (location.state as LocationState) || {};
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsProcessing(true);
+    
     try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 2000));
       toast.success("Payment processed successfully!");
       navigate('/payment-success');
     } catch (error) {
       toast.error("Payment failed. Please try again.");
+      setIsProcessing(false);
     }
   };
 
@@ -112,8 +118,15 @@ const PaymentPage = () => {
           </div>
 
           <div className="mt-8 flex justify-end">
-            <Button type="submit" size="lg">
-              Complete Payment
+            <Button type="submit" size="lg" disabled={isProcessing} className="relative">
+              {isProcessing ? (
+                <>
+                  <Loader className="mr-2 h-4 w-4 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                'Complete Payment'
+              )}
             </Button>
           </div>
         </form>
