@@ -1,9 +1,9 @@
-
 import Hero from "@/components/Hero";
 import Navigation from "@/components/Navigation";
 import Place from "@/components/Place";
 import Features from "@/components/Features";
 import Footer from "@/components/Footer";
+import Chatbot from "@/components/Chatbot";
 
 const places = [
   {
@@ -54,6 +54,7 @@ const Index = () => {
       
       <Features />
       <Footer />
+      <Chatbot />
     </div>
   );
 };

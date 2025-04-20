@@ -31,13 +31,13 @@ const Navigation = () => {
 
   return (
     <NavigationMenu className="w-full bg-primary/10 shadow-sm fixed top-0 left-0 z-50">
-      <div className="w-full container mx-auto flex justify-between items-center py-4">
-        <Link to="/" className="flex items-center space-x-2 text-primary hover:text-primary-accent transition-colors">
+      <div className="w-full container mx-auto flex justify-end items-center py-4">
+        <Link to="/" className="mr-auto flex items-center space-x-2 text-primary hover:text-primary-accent transition-colors">
           <Plane className="h-6 w-6" />
           <span className="text-xl font-semibold">VacationVibes</span>
         </Link>
 
-        <NavigationMenuList className="flex items-center space-x-6 bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-md">
+        <NavigationMenuList className="flex items-center space-x-6 bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-md ml-4">
           <NavigationMenuItem>
             <Link to="/" className="flex items-center hover:text-primary-accent transition-colors">
               <Home className="mr-2" />
