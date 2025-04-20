@@ -1,11 +1,9 @@
-
 import { useState } from 'react';
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import { supabase } from '../lib/supabase';
 import {
   Popover,
   PopoverContent,
@@ -55,52 +53,16 @@ const BookingForm = () => {
       return;
     }
 
-    setIsProcessing(true);
-
-    try {
-      // Check if environment variables for Supabase are set
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-      
-      if (!supabaseUrl || !supabaseAnonKey) {
-        toast({
-          title: "Demo Mode",
-          description: "Running in demo mode. In a real app, this would process a payment.",
-          variant: "default",
-        });
-        
-        // Simulate processing delay
-        setTimeout(() => {
-          navigate('/payment-success');
-        }, 1500);
-        return;
+    navigate('/payment', {
+      state: {
+        bookingDetails: {
+          startDate,
+          endDate,
+          adults,
+          children,
+        }
       }
-
-      const { data, error } = await supabase.functions.invoke('create-payment', {
-        body: {
-          bookingDetails: {
-            destination,
-            startDate,
-            endDate,
-            adults,
-            children,
-          },
-        },
-      });
-
-      if (error) throw error;
-      if (data?.url) {
-        window.location.href = data.url;
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to process payment. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsProcessing(false);
-    }
+    });
   };
 
   return (
