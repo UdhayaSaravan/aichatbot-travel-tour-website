@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Home, Info, Wrench, LogIn, Plane, User, List } from 'lucide-react';
+import { Home, Info, List, LogIn, Plane, User } from 'lucide-react';
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
@@ -30,30 +30,30 @@ const Navigation = () => {
   };
 
   return (
-    <NavigationMenu className="w-full bg-white shadow-sm">
+    <NavigationMenu className="w-full bg-white shadow-sm fixed top-0 left-0 z-50">
       <div className="container mx-auto flex justify-between items-center py-4">
         <Link to="/" className="flex items-center space-x-2 text-primary hover:text-primary-accent transition-colors">
           <Plane className="h-6 w-6" />
           <span className="text-xl font-semibold">VacationVibes</span>
         </Link>
 
-        <NavigationMenuList className="flex items-center space-x-8">
+        <NavigationMenuList className="flex items-center space-x-4">
           <NavigationMenuItem>
-            <Link to="/" className="flex flex-col items-center hover:text-primary-accent transition-colors">
-              <Home className="mb-1" />
-              <span className="text-sm">Home</span>
+            <Link to="/" className="flex items-center hover:text-primary-accent transition-colors">
+              <Home className="mr-2" />
+              <span>Home</span>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="/services" className="flex flex-col items-center hover:text-primary-accent transition-colors">
-              <List className="mb-1" />
-              <span className="text-sm">Services</span>
+            <Link to="/services" className="flex items-center hover:text-primary-accent transition-colors">
+              <List className="mr-2" />
+              <span>Services</span>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="/about" className="flex flex-col items-center hover:text-primary-accent transition-colors">
-              <Info className="mb-1" />
-              <span className="text-sm">About Us</span>
+            <Link to="/about" className="flex items-center hover:text-primary-accent transition-colors">
+              <Info className="mr-2" />
+              <span>About Us</span>
             </Link>
           </NavigationMenuItem>
 
@@ -83,9 +83,9 @@ const Navigation = () => {
             </NavigationMenuItem>
           ) : (
             <NavigationMenuItem>
-              <Link to="/login" className="flex flex-col items-center hover:text-primary-accent transition-colors">
-                <LogIn className="mb-1" />
-                <span className="text-sm">Login</span>
+              <Link to="/login" className="flex items-center hover:text-primary-accent transition-colors">
+                <LogIn className="mr-2" />
+                <span>Login</span>
               </Link>
             </NavigationMenuItem>
           )}
