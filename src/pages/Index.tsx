@@ -1,3 +1,4 @@
+
 import Hero from "@/components/Hero";
 import Navigation from "@/components/Navigation";
 import Place from "@/components/Place";
@@ -31,7 +32,7 @@ const places = [
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
       <Navigation />
       <Hero />
       
@@ -54,7 +55,11 @@ const Index = () => {
       
       <Features />
       <Footer />
-      <Chatbot />
+      
+      {/* Chatbot is now at the bottom right of the page */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <Chatbot />
+      </div>
     </div>
   );
 };
