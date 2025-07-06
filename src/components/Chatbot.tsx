@@ -23,6 +23,7 @@ type BookingStep =
   | 'fromDate'
   | 'toDate'
   | 'numDays'
+  | 'confirmation'
   | 'done';
 
 interface Message {
@@ -67,6 +68,7 @@ const bookingQuestions: { step: BookingStep, question: string }[] = [
   { step: 'fromDate', question: "What is the start date? (YYYY-MM-DD)" },
   { step: 'toDate', question: "What is the end date? (YYYY-MM-DD)" },
   { step: 'numDays', question: "How many days?" },
+  { step: 'confirmation', question: "Please review your booking details above. Type 'confirm' to proceed with payment or 'edit' to make changes:" },
 ];
 
 const Chatbot = () => {
@@ -99,6 +101,22 @@ const Chatbot = () => {
 
   const validateDate = (date: string) => {
     return /^\d{4}-\d{2}-\d{2}$/.test(date);
+  };
+
+  const showBookingConfirmation = (data: BookingData) => {
+    const confirmationMessage = 
+      `Please review your booking details:\n\n` +
+      `📍 Destination: ${data.destination}\n` +
+      `👤 Name: ${data.name}\n` +
+      `📧 Email: ${data.email}\n` +
+      `🎂 Age: ${data.age}\n` +
+      `👥 Number of People: ${data.numPeople}\n` +
+      `📅 From: ${data.fromDate}\n` +
+      `📅 To: ${data.toDate}\n` +
+      `⏰ Days: ${data.numDays}\n\n` +
+      `Type 'confirm' to proceed with payment or 'edit' to make changes.`;
+    
+    botSay(confirmationMessage);
   };
 
   const handleBookingInput = async (value: string) => {
@@ -166,8 +184,32 @@ const Chatbot = () => {
           errorMessage = "Please enter a valid number of days";
         }
         updatedBookingData.numDays = value;
-        nextStep = 'done';
+        nextStep = 'confirmation';
         break;
+      case 'confirmation':
+        const userInput = value.toLowerCase().trim();
+        if (userInput === 'confirm') {
+          botSay("Perfect! Processing your booking and redirecting to payment...");
+          setTimeout(() => {
+            navigate('/payment', {
+              state: {
+                bookingDetails: updatedBookingData
+              }
+            });
+          }, 2000);
+          
+          // Reset booking state
+          setBookingMode(false);
+          setBookingStep('destination');
+          setBookingData({ ...initialBookingData });
+          return;
+        } else if (userInput === 'edit') {
+          botSay("Which detail would you like to edit? Please tell me what you'd like to change (e.g., 'change destination', 'change date', etc.)");
+          return;
+        } else {
+          botSay("Please type 'confirm' to proceed with payment or 'edit' to make changes to your booking details.");
+          return;
+        }
       default:
         break;
     }
@@ -179,33 +221,11 @@ const Chatbot = () => {
 
     setBookingData(updatedBookingData);
 
-    if (nextStep === 'done') {
-      botSay(
-        `Great! I've collected all your booking details:\n\n` +
-        `Destination: ${updatedBookingData.destination}\n` +
-        `Name: ${updatedBookingData.name}\n` +
-        `Email: ${updatedBookingData.email}\n` +
-        `Age: ${updatedBookingData.age}\n` +
-        `People: ${updatedBookingData.numPeople}\n` +
-        `From: ${updatedBookingData.fromDate}\n` +
-        `To: ${updatedBookingData.toDate}\n` +
-        `Days: ${updatedBookingData.numDays}\n\n` +
-        "Redirecting you to complete the payment..."
-      );
-
-      // Wait for 2 seconds to show the message before redirecting
+    if (nextStep === 'confirmation') {
       setTimeout(() => {
-        navigate('/payment', {
-          state: {
-            bookingDetails: updatedBookingData
-          }
-        });
-      }, 2000);
-
-      // Reset booking state
-      setBookingMode(false);
-      setBookingStep('destination');
-      setBookingData({ ...initialBookingData });
+        showBookingConfirmation(updatedBookingData);
+        setBookingStep(nextStep);
+      }, 400);
     } else {
       setTimeout(() => {
         const q = bookingQuestions.find(q => q.step === nextStep);
@@ -276,7 +296,9 @@ const Chatbot = () => {
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder={
                 bookingMode
-                  ? bookingQuestions.find(q => q.step === bookingStep)?.question ?? "Your answer..."
+                  ? bookingStep === 'confirmation'
+                    ? "Type 'confirm' or 'edit'..."
+                    : bookingQuestions.find(q => q.step === bookingStep)?.question ?? "Your answer..."
                   : "Type your message..."
               }
               className="flex-1"
