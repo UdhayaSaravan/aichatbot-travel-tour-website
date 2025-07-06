@@ -2,7 +2,7 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/e6da048e-afdf-4fa2-83d7-9f2c87946d15
+**URL**: https://aichatbot-travel-tour-website.vercel.app/
 
 ## How can I edit this code?
 
